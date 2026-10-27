@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html class="dark" lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>RPG Quest Todo (갓생 모험가 투두리스트)</title>
+  <meta name="description" content="16비트 레트로 픽셀 아트 RPG 게이미피케이션 투두리스트 및 4대 직업 20단계 캐릭터 진화 웹서비스"/>
+  <meta name="theme-color" content="#0b1326"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="RPG Quest Todo (갓생 모험가 투두리스트)"/>
+  <meta property="og:description" content="일상을 모험처럼! 퀘스트를 완료해 16비트 캐릭터를 20단계 신화 등급까지 진화시키고 전설 악세서리를 수집하세요."/>
+  <meta property="og:image" content="/assets/characters/warrior.png"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 shape-rendering=%27crispEdges%27%3E%3Crect width=%2716%27 height=%2716%27 rx=%272%27 fill=%27%230b1326%27/%3E%3Cpath d=%27M11 2h3v3l-6 6-3-3 6-6z%27 fill=%27%2338bdf8%27/%3E%3Crect x=%273%27 y=%2710%27 width=%273%27 height=%273%27 fill=%27%23fbbf24%27/%3E%3Crect x=%272%27 y=%2712%27 width=%272%27 height=%272%27 fill=%27%23ef4444%27/%3E%3C/svg%3E"/>
+  
+  <!-- Retro RPG Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Space+Mono:wght@400;700&family=DotGothic16&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
+  <!-- Canvas Confetti for Celebration Effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-variant": "#2d3449",
+            "primary": "#ffe1a7",
+            "emerald-dark": "#047857",
+            "slate-surface": "#1E293B",
+            "on-surface-variant": "#d3c5ac",
+            "secondary-fixed": "#6ffbbe",
+            "on-secondary-fixed": "#002113",
+            "outline": "#9c8f79",
+            "crimson-critical": "#EF4444",
+            "on-background": "#dae2fd",
+            "on-error-container": "#ffdad6",
+            "surface-bright": "#31394d",
+            "emerald-glow": "#34D399",
+            "inverse-on-surface": "#283044",
+            "on-tertiary": "#003640",
+            "on-tertiary-fixed": "#001f26",
+            "surface": "#0b1326",
+            "on-secondary": "#003824",
+            "tertiary": "#b3eeff",
+            "on-secondary-fixed-variant": "#005236",
+            "primary-container": "#fbbf24",
+            "gold-dark": "#B45309",
+            "on-surface": "#dae2fd",
+            "surface-container-lowest": "#060e20",
+            "on-tertiary-container": "#005c6d",
+            "on-secondary-container": "#00311f",
+            "on-primary-fixed": "#261a00",
+            "secondary-fixed-dim": "#4edea3",
+            "surface-dim": "#0b1326",
+            "inverse-surface": "#dae2fd",
+            "on-error": "#690005",
+            "tertiary-container": "#4fd9f8",
+            "tertiary-fixed": "#acedff",
+            "slate-border": "#334155",
+            "background": "#0b1326",
+            "primary-fixed-dim": "#f9bd22",
+            "tertiary-fixed-dim": "#4cd7f6",
+            "surface-container": "#171f33",
+            "error-container": "#93000a",
+            "on-primary": "#402d00",
+            "on-primary-container": "#6c4f00",
+            "gold-light": "#FDE68A",
+            "surface-container-highest": "#2d3449",
+            "inverse-primary": "#795900",
+            "on-primary-fixed-variant": "#5c4300",
+            "on-tertiary-fixed-variant": "#004e5c",
+            "error": "#ffb4ab",
+            "surface-container-low": "#131b2e",
+            "slate-dungeon": "#090D16",
+            "mana-deep": "#0E7490",
+            "primary-fixed": "#ffdf9f",
+            "surface-tint": "#f9bd22",
+            "secondary": "#4edea3",
+            "mana-cyan": "#22D3EE",
+            "outline-variant": "#4f4633",
+            "surface-container-high": "#222a3d",
+            "secondary-container": "#00a572",
+            "pixel-white": "#F8FAFC",
+            "crimson-dark": "#991B1B"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "margin-md": "2rem",
+            "margin": "1rem",
+            "space-md": "1rem",
+            "gutter-lg": "2rem",
+            "margin-lg": "3rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "gutter": "1rem",
+            "gutter-md": "1.5rem"
+          },
+          fontFamily: {
+            "label-sm": ["Space Mono", "monospace"],
+            "display-lg": ["Space Grotesk", "sans-serif"],
+            "headline-lg-mobile": ["Space Grotesk", "sans-serif"],
+            "body-sm": ["Space Mono", "monospace"],
+            "title-md": ["Space Mono", "monospace"],
+            "label-md": ["Space Mono", "monospace"],
+            "body-md": ["Space Mono", "monospace"],
+            "headline-lg": ["Space Grotesk", "sans-serif"],
+            "body-lg": ["Space Mono", "monospace"],
+            "headline-md": ["Space Grotesk", "sans-serif"],
+            "headline-sm": ["Space Grotesk", "sans-serif"],
+            "display-lg-mobile": ["Space Grotesk", "sans-serif"],
+            "label-lg": ["Space Mono", "monospace"],
+            "pixel": ["DotGothic16", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+  
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen relative flex flex-col">
+
+  <!-- CRITICAL Impact Flash Overlay (Animated on Critical Todo Completion) -->
+  <div id="critImpactOverlay" class="fixed inset-0 pointer-events-none z-50 bg-crimson-critical/40 hidden"></div>
+
+  <!-- Screen Shake Wrapper -->
+  <div id="screenShakeWrapper" class="flex-grow flex flex-col w-full">
+
+    <!-- TOP RETRO HUD HEADER (Spacious & No-Wrap, Gold/Diamond Removed) -->
+    <header class="fixed top-0 left-0 right-0 w-full z-40 bg-slate-surface/95 backdrop-blur-md shadow-[0_4px_0_0_#090D16] border-b border-slate-border">
+      <div class="h-20 max-w-7xl mx-auto px-margin md:px-margin-md flex items-center justify-between gap-gutter">
+        
+        <!-- Left: Logo & Hero Level Quick Status Pill (No wrap) -->
+        <div class="flex items-center gap-space-md flex-shrink-0">
+          <a class="flex items-center gap-space-sm group cursor-pointer whitespace-nowrap" id="navLogoBtn">
+            <div class="w-10 h-10 bg-surface-container-lowest flex items-center justify-center shadow-[2px_2px_0_0_#090D16] border border-slate-border">
+              <span class="material-symbols-outlined text-primary-container group-hover:scale-110 transition-transform">swords</span>
+            </div>
+            <div class="flex flex-col whitespace-nowrap">
+              <span class="font-headline-sm text-headline-sm text-primary tracking-wider uppercase font-bold">QUEST TODO</span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant font-pixel">갓생 모험가 연대기</span>
+            </div>
+          </a>
+          <!-- Quick Status Pill -->
+          <div class="hidden md:flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs shadow-[2px_2px_0_0_#090D16] border border-slate-border/50 whitespace-nowrap flex-shrink-0">
+            <span class="font-label-sm text-label-sm text-secondary font-bold" id="headerHeroLevel">[LV.1]</span>
+            <span class="font-label-sm text-label-sm text-on-surface whitespace-nowrap" id="headerHeroTitle">초보 모험가</span>
+          </div>
+        </div>
+
+        <!-- Center: Navigation Tabs (Wide & Spacious) -->
+        <nav class="hidden lg:flex items-center gap-space-sm font-label-lg text-label-lg flex-shrink-0" id="mainNavBar">
+          <button class="nav-tab px-space-md py-space-sm transition-all flex items-center gap-space-xs bg-primary-container text-on-primary-container shadow-[2px_2px_0_0_#090D16] font-bold whitespace-nowrap" data-target="view-quests">
+            <span class="material-symbols-outlined text-[18px]">swords</span>
+            <span>퀘스트 (오늘의 할 일)</span>
+          </button>
+          <button class="nav-tab px-space-md py-space-sm transition-all flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container whitespace-nowrap" data-target="view-calendar">
+            <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+            <span>퀘스트 캘린더 (달력)</span>
+          </button>
+          <button class="nav-tab px-space-md py-space-sm transition-all flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container whitespace-nowrap" data-target="view-inventory">
+            <span class="material-symbols-outlined text-[18px]">featured_seasonal_and_gifts</span>
+            <span>주간 보물상자 &amp; 인벤토리</span>
+          </button>
+          <button class="nav-tab px-space-md py-space-sm transition-all flex items-center gap-space-xs text-on-surface-variant hover:text-on-surface hover:bg-surface-container whitespace-nowrap" id="openCodexFromNavBtn">
+            <span class="material-symbols-outlined text-[18px]">menu_book</span>
+            <span>칭호 도감</span>
+          </button>
+        </nav>
+
+        <!-- Right: Utility Controls (Sound, Class Select, Settings) -->
+        <div class="flex items-center gap-space-xs md:gap-space-sm flex-shrink-0">
+          <!-- Class Altar Quick Button -->
+          <button id="navOpenClassBtn" class="bg-surface-container-lowest hover:bg-surface-container text-primary px-space-sm py-space-xs font-label-sm text-label-sm shadow-[2px_2px_0_0_#090D16] border border-slate-border flex items-center gap-1 active:translate-x-0.5 active:translate-y-0.5 whitespace-nowrap" title="직업 변경 제단">
+            <span class="material-symbols-outlined text-[18px] text-primary-container">account_tree</span>
+            <span class="hidden sm:inline">직업 변경</span>
+          </button>
+          <!-- Sound Toggle Button -->
+          <button id="soundToggleBtn" class="w-9 h-9 bg-surface-container-lowest hover:bg-surface-container text-primary-container flex items-center justify-center shadow-[2px_2px_0_0_#090D16] border border-slate-border active:translate-x-0.5 active:translate-y-0.5" title="음향 켜기/끄기">
+            <span class="material-symbols-outlined text-[20px]" id="soundIcon">volume_up</span>
+          </button>
+          <!-- Settings / Dev Cheats Button -->
+          <button id="openSettingsBtn" class="w-9 h-9 bg-surface-container-lowest hover:bg-surface-container text-secondary flex items-center justify-center shadow-[2px_2px_0_0_#090D16] border border-slate-border active:translate-x-0.5 active:translate-y-0.5" title="설정 및 테스트 치트">
+            <span class="material-symbols-outlined text-[20px]">tune</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Sub Navigation Bar -->
+      <div class="lg:hidden flex items-center justify-around bg-surface-container-lowest border-t border-slate-border py-1 px-2">
+        <button class="nav-tab-mobile flex-1 py-1 text-center font-label-sm text-[11px] text-primary-container font-bold" data-target="view-quests">⚔️ 퀘스트</button>
+        <button class="nav-tab-mobile flex-1 py-1 text-center font-label-sm text-[11px] text-on-surface-variant" data-target="view-calendar">📅 캘린더</button>
+        <button class="nav-tab-mobile flex-1 py-1 text-center font-label-sm text-[11px] text-on-surface-variant" data-target="view-inventory">🎁 보물상자</button>
+        <button class="nav-tab-mobile flex-1 py-1 text-center font-label-sm text-[11px] text-on-surface-variant" id="openCodexMobileBtn">📜 도감</button>
+      </div>
+    </header>
+
+    <!-- MAIN APP CONTENT CONTAINER (VIEWS) -->
+    <main class="w-full pt-28 lg:pt-24 pb-space-xl flex-grow">
+
+      <!-- ========================================================
+           VIEW 1: QUESTS (TODAY'S MAIN DASHBOARD) - Stitch _2 Based
+           ======================================================== -->
+      <section id="view-quests" class="app-view w-full max-w-7xl mx-auto px-margin md:px-margin-md flex flex-col gap-space-xl">
+        
+        <!-- TOP SECTION: CHARACTER STATUS & 7-DAY ATTENDANCE HUD -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-stretch">
+          
+          <!-- Character 16-Bit Avatar & Level Card (lg:col-span-8) -->
+          <div class="lg:col-span-8 bg-surface-container shadow-[6px_6px_0_0_#090D16] border border-slate-border p-space-md md:p-space-lg relative flex flex-col justify-between overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 pointer-events-none -mr-8 -mt-8 rotate-45"></div>
+            
+            <div class="flex flex-col md:flex-row gap-space-lg items-center w-full relative z-10">
+              <!-- 16-Bit Avatar Frame with 5-Level Evolution Visual Upgrades -->
+              <div class="relative flex-shrink-0 flex flex-col items-center">
+                <div class="relative p-1 bg-surface-container-lowest shadow-[inset_3px_3px_0_0_#090D16,4px_4px_0_0_#090D16] border-2 border-primary/40">
+                  <div class="absolute -top-1 -left-1 text-gold-light z-20">
+                    <span class="material-symbols-outlined text-[18px]">star</span>
+                  </div>
+                  <!-- 16-Bit Hero Sprite Box -->
+                  <div class="w-40 h-40 sm:w-48 sm:h-48 bg-slate-900/90 flex items-center justify-center overflow-hidden relative group" id="heroAvatarContainer">
+                    <!-- Live 16-Bit Avatar with Dynamic Aura Rendered Here -->
+                  </div>
+                </div>
+                <!-- Stage Badge -->
+                <div class="-mt-2 z-20 bg-primary-container text-on-primary-container px-space-md py-0.5 font-label-sm text-label-sm shadow-[2px_2px_0_0_#090D16] font-bold tracking-wider uppercase border border-gold-dark/40" id="heroStageBadge">
+                  ★ STAGE 01 HERO ★
+                </div>
+              </div>
+
+              <!-- Hero Info & EXP Rail -->
+              <div class="flex flex-col gap-space-sm flex-grow min-w-0 w-full">
+                <div class="flex flex-col gap-space-xs w-full">
+                  <div class="flex flex-wrap items-center justify-between gap-space-xs">
+                    <div class="flex items-center gap-space-sm flex-wrap">
+                      <span class="bg-primary text-on-primary px-space-sm py-space-xs font-label-md text-label-md font-bold shadow-[2px_2px_0_0_#090D16] flex items-center gap-1" id="heroLevelBadge">
+                        <span class="material-symbols-outlined text-[16px]">military_tech</span> LV.1
+                      </span>
+                      <div class="flex items-center gap-space-xs flex-wrap">
+                        <span class="bg-gold-dark/40 border border-gold-dark/40 text-gold-light px-space-xs py-0.5 font-label-sm text-label-sm shadow-[1px_1px_0_0_#090D16] font-bold tracking-wider" id="heroTitleBadge" title="5레벨 진화별 부여 칭호">
+                          [칭호: 초보 모험가]
+                        </span>
+                        <span class="text-outline text-label-sm">•</span>
+                        <span class="font-headline-md text-headline-md text-primary tracking-wide font-bold" id="heroDisplayName">모험가</span>
+                        <button type="button" id="editHeroNameBtn" class="bg-surface-container-lowest hover:bg-surface-container-high text-primary-container px-space-xs py-0.5 font-label-sm text-label-sm shadow-[2px_2px_0_0_#090D16] border border-primary/30 flex items-center gap-1 cursor-pointer transition-all active:translate-x-1 active:translate-y-1" title="캐릭터 이름 변경">
+                          <span class="material-symbols-outlined text-[14px]">edit</span>
+                          <span>✏️ 이름 수정</span>
+                        </button>
+                        <button type="button" id="openEvolutionCompareBtn" class="bg-surface-container-lowest hover:bg-surface-container-high text-secondary px-space-xs py-0.5 font-label-sm text-label-sm shadow-[2px_2px_0_0_#090D16] border border-secondary/30 flex items-center gap-1 cursor-pointer transition-all active:translate-x-1 active:translate-y-1" title="외형 진화 비교창 열기">
+                          <span class="material-symbols-outlined text-[14px]">compare</span>
+                          <span>🔍 진화 비교</span>
+                        </button>
+                      </div>
+                    </div>
+                    <span class="font-label-sm text-label-sm text-mana-cyan bg-surface-container-lowest px-space-sm py-space-xs shadow-[2px_2px_0_0_#090D16] border border-slate-border/50 flex items-center gap-space-xs" id="heroClassBadge">
+                      <span class="w-2 h-2 bg-mana-cyan inline-block animate-ping"></span> CLASS: 16비트 전사
+                    </span>
+                  </div>
+
+                  <!-- Name Input Form (Hidden by default) -->
+                  <div class="hidden items-center gap-space-xs bg-surface-container-lowest p-1.5 border border-primary/40 shadow-[inset_1px_1px_0_0_#090D16]" id="heroNameInputGroup">
+                    <input type="text" id="heroNameInput" value="" maxlength="12" placeholder="새 모험가 이름 입력" class="bg-surface-container-high text-pixel-white px-2 py-0.5 font-label-sm text-label-sm shadow-[inset_2px_2px_0_0_#090D16] border border-primary/40 focus:outline-none focus:border-primary-container w-44"/>
+                    <button type="button" id="saveHeroNameBtn" class="bg-primary-container text-on-primary-container px-space-sm py-0.5 font-label-sm text-label-sm font-bold shadow-[2px_2px_0_0_#090D16] hover:bg-gold-light">확인</button>
+                    <button type="button" id="cancelHeroNameBtn" class="bg-surface-container text-on-surface-variant px-space-sm py-0.5 font-label-sm text-label-sm shadow-[1px_1px_0_0_#090D16] hover:text-on-surface">취소</button>
+                  </div>
+                </div>
+
+                <!-- EXP Progress Bar (Starts at 0 / 100 EXP) -->
+                <div class="flex flex-col gap-1 mt-space-xs bg-surface-container-lowest/60 p-space-sm shadow-[inset_2px_2px_0_0_#090D16] border border-slate-border/40">
+                  <div class="flex justify-between items-center font-label-sm text-label-sm">
+                    <span class="text-primary-container font-bold flex items-center gap-space-xs">
+                      <span class="material-symbols-outlined text-[16px] text-primary-container">bolt</span> EXP PROGRESS (경험치 진행도)
+                    </span>
+                    <span class="text-primary font-bold bg-surface-container px-space-xs py-0.5 shadow-[1px_1px_0_0_#090D16]" id="heroExpNumbers">
+                      0 / 100 EXP (0%)
+                    </span>
+                  </div>
+                  <div class="h-6 bg-surface-container-lowest shadow-[inset_2px_2px_0_0_#090D16] p-[2px] relative flex items-center mt-1 border border-slate-border/60">
+                    <div class="h-full bg-primary-container shadow-[inset_0_-3px_0_0_#B45309] flex items-center justify-end px-1 transition-all duration-300" id="heroExpBarFill" style="width: 0%;">
+                      <span class="w-2 h-2 bg-pixel-white animate-pulse"></span>
+                    </div>
+                    <!-- Segmented block ticks -->
+                    <div class="absolute inset-0 flex justify-between px-2 pointer-events-none opacity-25">
+                      <span class="h-full w-[1px] bg-surface"></span>
+                      <span class="h-full w-[1px] bg-surface"></span>
+                      <span class="h-full w-[1px] bg-surface"></span>
+                      <span class="h-full w-[1px] bg-surface"></span>
+                      <span class="h-full w-[1px] bg-surface"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Stats Summary -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm mt-space-md pt-space-sm bg-surface-container-lowest/80 p-space-sm shadow-[inset_2px_2px_0_0_#090D16] border border-slate-border/30">
+              <div class="flex items-center gap-space-sm">
+                <div class="w-8 h-8 bg-surface-container flex items-center justify-center text-primary shadow-[2px_2px_0_0_#090D16]">
+                  <span class="material-symbols-outlined text-[18px]">verified</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">완료한 퀘스트</span>
+                  <span class="font-title-md text-title-md text-primary font-bold" id="heroCompletedCount">0개</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-space-sm">
+                <div class="w-8 h-8 bg-surface-container flex items-center justify-center text-secondary shadow-[2px_2px_0_0_#090D16]">
+                  <span class="material-symbols-outlined text-[18px]">local_fire_department</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">연속 출석</span>
+                  <span class="font-title-md text-title-md text-secondary font-bold" id="heroStreakCount">0일차</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-space-sm">
+                <div class="w-8 h-8 bg-surface-container flex items-center justify-center text-primary-container shadow-[2px_2px_0_0_#090D16]">
+                  <span class="material-symbols-outlined text-[18px]">vpn_key</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant">장착 악세서리</span>
+                  <span class="font-title-md text-title-md text-primary-container truncate" id="heroEquippedName">[미장착]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weekly Attendance Ribbon 7-Day Tracker (lg:col-span-4) -->
+          <div class="lg:col-span-4 bg-surface-container shadow-[6px_6px_0_0_#090D16] border border-slate-border p-space-md md:p-space-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-space-xs">
+                <div class="flex items-center gap-space-xs">
+                  <span class="material-symbols-outlined text-primary-container text-[20px]">calendar_month</span>
+                  <span class="font-title-md text-title-md text-primary uppercase">주간 출석 체크 (7-DAY)</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-secondary bg-surface-container-lowest px-space-xs py-0.5 border border-slate-border" id="attendanceRatioText">0/7 CLEAR</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-space-xs">
+                매일 최소 1개의 퀘스트를 등록하면 출석 도장이 찍힙니다. 7일차 완성 시 전설 보물상자가 개방됩니다!
+              </p>
+              
+              <!-- 7 Days Grid Tiles (Mon to Sun) -->
+              <div class="grid grid-cols-7 gap-space-xs mt-space-md" id="attendanceGridTiles">
+                <!-- Dynamically rendered -->
+              </div>
+            </div>
+
+            <!-- Reward preview & Jump to Chest Button -->
+            <div class="mt-space-md flex flex-col gap-space-xs">
+              <div class="p-space-xs bg-primary-container/10 flex items-center justify-between shadow-[inset_2px_2px_0_0_#090D16] border border-primary-container/20">
+                <div class="flex items-center gap-space-xs">
+                  <span class="material-symbols-outlined text-primary-container text-[18px]">featured_seasonal_and_gifts</span>
+                  <span class="font-label-sm text-label-sm text-primary">보상: [전설 보물상자]</span>
+                </div>
+                <span class="text-xs text-secondary font-bold" id="chestStatusBadge">도전 대기 중</span>
+              </div>
+              <button id="openChestTabDirectBtn" class="w-full bg-primary-container text-on-primary-container font-label-sm text-label-sm py-2 shadow-[2px_2px_0_0_#090D16] font-bold flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                <span>🎁 보물상자 &amp; 인벤토리 열기</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- MAIN QUEST REGISTER & ACTIVE QUEST LOG -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+          
+          <!-- Left Column: Quest Creation & Quest Log (lg:col-span-8) -->
+          <div class="lg:col-span-8 flex flex-col gap-space-lg">
+            
+            <!-- QUEST REGISTRATION BAR (Form) -->
+            <div class="bg-surface-container shadow-[6px_6px_0_0_#090D16] border border-slate-border p-space-md md:p-space-lg flex flex-col gap-space-md">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-space-xs">
+                  <span class="material-symbols-outlined text-primary-container text-[20px]">note_add</span>
+                  <span class="font-title-md text-title-md text-primary">신규 퀘스트 발령서 등록</span>
+                </div>
+                <span class="font-label-sm text-label-sm text-on-surface-variant font-pixel">ENTER KEY OR BUTTON TO SUBMIT</span>
+              </div>
+
+              <!-- Input Row -->
+              <div class="flex flex-col md:flex-row gap-space-sm items-stretch">
+                <div class="relative flex-grow">
+                  <input class="w-full bg-surface-container-lowest text-pixel-white px-space-md py-space-sm font-body-md text-body-md shadow-[inset_3px_3px_0_0_#090D16] border border-slate-border focus:outline-none focus:border-mana-cyan placeholder:text-outline/70" id="questInput" placeholder="새로운 퀘스트를 입력하세요... (예: 갓생 코딩 과제 완성하기)" type="text"/>
+                </div>
+                <button class="bg-primary-container hover:bg-gold-light active:translate-x-1 active:translate-y-1 active:shadow-none text-on-primary-container font-label-lg text-label-lg px-space-lg py-space-sm shadow-[4px_4px_0_0_#090D16] border border-gold-dark flex items-center justify-center gap-space-xs transition-all uppercase whitespace-nowrap font-bold" id="addQuestBtn">
+                  <span class="material-symbols-outlined text-[18px]">swords</span>
+                  <span>퀘스트 수락 ⚔️</span>
+                </button>
+              </div>
+
+              <!-- Priority Selector & Buff Details -->
+              <div class="flex flex-wrap items-center justify-between gap-space-sm pt-space-xs border-t border-slate-border/40">
+                <div class="flex items-center gap-space-xs bg-surface-container-lowest p-1 shadow-[inset_2px_2px_0_0_#090D16] border border-slate-border/50">
+                  <button class="px-space-sm py-1 font-label-sm text-label-sm bg-surface-container text-on-surface shadow-[2px_2px_0_0_#090D16] transition-all font-bold" id="priorityNormalBtn" type="button">
+                    보통 (+10 EXP)
+                  </button>
+                  <button class="px-space-sm py-1 font-label-sm text-label-sm text-crimson-critical hover:text-on-surface transition-all flex items-center gap-1 font-bold" id="priorityCriticalBtn" type="button">
+                    <span>🔥 중요 (+30 EXP [CRITICAL])</span>
+                  </button>
+                </div>
+                <div class="flex items-center gap-space-xs flex-wrap">
+                  <span class="font-label-sm text-label-sm bg-surface-container-high text-secondary px-space-sm py-1 shadow-[2px_2px_0_0_#090D16] border border-slate-border/40 flex items-center gap-1" id="classPerkTag">
+                    <span class="material-symbols-outlined text-[14px]">shield</span> 직업 보너스 활성
+                  </span>
+                  <span class="font-label-sm text-label-sm bg-surface-container-high text-mana-cyan px-space-sm py-1 shadow-[2px_2px_0_0_#090D16] border border-slate-border/40 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">bolt</span> 등록 시 출석 도장 즉시 인정!
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- QUEST LIST BOARD (With Individual Complete Buttons) -->
+            <div class="bg-surface-container shadow-[6px_6px_0_0_#090D16] border border-slate-border p-space-md md:p-space-lg flex flex-col gap-space-md">
+              <div class="flex flex-wrap items-center justify-between gap-space-sm pb-space-xs border-b border-slate-border/40">
+                <div class="flex items-center gap-space-sm">
+                  <span class="w-3 h-3 bg-primary-container inline-block shadow-[1px_1px_0_0_#090D16]"></span>
+                  <h2 class="font-headline-sm text-headline-sm text-primary uppercase">오늘의 모험 퀘스트 목록 (QUEST LOG)</h2>
+                </div>
+                <div class="flex items-center gap-space-xs font-label-sm text-label-sm text-on-surface-variant">
+                  <span>남은 과제: <span class="text-primary font-bold" id="activeQuestCount">0</span>개</span>
+                  <span class="text-outline">/</span>
+                  <span>완료: <span class="text-secondary font-bold" id="completedQuestCount">0</span>개</span>
+                </div>
+              </div>
+
+              <!-- Quest Stack -->
+              <div class="flex flex-col gap-space-sm" id="questContainer">
+                <!-- Dynamically rendered quests -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Quick Mini Inventory & Buff HUD (lg:col-span-4) -->
+          <div class="lg:col-span-4 flex flex-col gap-space-lg">
+            <!-- Active Buff Banner -->
+            <div class="bg-gold-dark/30 shadow-[4px_4px_0_0_#090D16] border border-gold-dark/50 p-space-md relative overflow-hidden flex flex-col gap-space-xs">
+              <div class="flex items-center justify-between">
+                <span class="font-label-sm text-label-sm text-primary-container font-bold flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[18px]">auto_awesome</span> BUFF ACTIVE (활성 버프)
+                </span>
+                <span class="w-2 h-2 bg-primary-container inline-block animate-ping"></span>
+              </div>
+              <p class="font-title-md text-title-md text-primary font-bold">
+                연속 달성 갓생 버프 활성화 중!
+              </p>
+              <span class="font-body-sm text-body-sm text-on-surface-variant">
+                퀘스트를 꾸준히 수행할수록 추가 경험치와 보물상자 획득 확률이 상승합니다.
+              </span>
+            </div>
+
+            <!-- Mini Loadout Preview -->
+            <div class="bg-surface-container shadow-[6px_6px_0_0_#090D16] border border-slate-border p-space-md md:p-space-lg flex flex-col gap-space-md">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-space-xs">
+                  <span class="material-symbols-outlined text-primary-container text-[20px]">shield</span>
+                  <h3 class="font-title-md text-title-md text-primary uppercase">장착 중인 장비 (LOADOUT)</h3>
+                </div>
+                <button class="font-label-sm text-label-sm text-mana-cyan hover:underline cursor-pointer" id="jumpInventoryBtn">
+                  전체 보기 &gt;
+                </button>
+              </div>
+              <div class="grid grid-cols-3 gap-space-sm">
+                <!-- Weapon -->
+                <div class="bg-surface-container-lowest p-space-xs shadow-[inset_2px_2px_0_0_#090D16] border border-slate-border/50 flex flex-col items-center text-center gap-1">
+                  <span class="font-label-sm text-[10px] text-outline-variant">무기</span>
+                  <div class="w-12 h-12 bg-surface-container flex items-center justify-center text-primary-container shadow-[2px_2px_0_0_#090D16]" id="loadoutWeaponIcon">
+                    <span class="material-symbols-outlined text-[26px]">swords</span>
+                  </div>
+                  <span class="font-label-sm text-[11px] text-on-surface truncate w-full" id="loadoutWeaponName">기본 무기</span>
+                  <span class="font-label-sm text-[10px] text-secondary">+10 ATK</span>
+                </div>
+                <!-- Armor -->
+                <div class="bg-surface-container-lowest p-space-xs shadow-[inset_2px_2px_0_0_#090D16] border border-slate-border/50 flex flex-col items-center text-center gap-1">
+                  <span class="font-label-sm text-[10px] text-outline-variant">방어구</span>
+                  <div class="w-12 h-12 bg-surface-container flex items-center justify-center text-mana-cyan shadow-[2px_2px_0_0_#090D16]">
+                    <span class="material-symbols-outlined text-[26px]">shield</span>
+                  </div>
+                  <span class="font-label-sm text-[11px] text-on-surface truncate w-full">모험가 갑옷</span>
+                  <span class="font-label-sm text-[10px] text-mana-cyan">+5 DEF</span>
+                </div>
+                <!-- Accessory -->
+                <div class="bg-surface-container-lowest p-space-xs shadow-[inset_2px_2px_0_0_#090D16] border border-slate-border/50 flex flex-col items-center text-center gap-1 cursor-pointer hover:bg-surface-container-high transition-colors" id="miniAccSlot">
+                  <span class="font-label-sm text-[10px] text-outline-variant">악세서리</span>
+                  <div class="w-12 h-12 bg-surface-container flex items-center justify-center text-2xl shadow-[2px_2px_0_0_#090D16]" id="loadoutAccIcon">
+                    🔒
+                  </div>
+                  <span class="font-label-sm text-[11px] text-primary font-bold truncate w-full" id="loadoutAccName">미장착</span>
+                  <span class="font-label-sm text-[10px] text-primary-container">+BUFF</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Class & Title Codex Trigger -->
+            <div class="bg-surface-container shadow-[6px_6px_0_0_#090D16] border border-slate-border p-space-md md:p-space-lg flex flex-col gap-space-sm">
+              <div class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-mana-cyan text-[20px]">menu_book</span>
+                <span class="font-title-md text-title-md text-primary">전직의 제단 &amp; 칭호 도감</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant">
+                5레벨 단위로 총 20단계의 외형과 칭호가 해금됩니다. 현재 달성 현황을 확인하거나 직업을 변경하세요.
+              </p>
+              <button class="mt-space-xs w-full bg-surface-container-lowest hover:bg-surface-bright text-mana-cyan active:translate-x-1 active:translate-y-1 active:shadow-none font-label-md text-label-md py-space-sm px-space-md shadow-[4px_4px_0_0_#090D16] border border-slate-border flex items-center justify-center gap-space-xs transition-all uppercase font-bold" id="openCodexModalBtn">
+                <span class="material-symbols-outlined text-[18px]">history_edu</span>
+                <span>직업 변경 / 칭호 도감 열기</span>
+              </button>
+            </div>
+
+            <!-- Adventurer Tips -->
+            <div class="bg-surface-container-lowest p-space-md shadow-[inset_3px_3px_0_0_#090D16] border border-slate-border/40 flex flex-col gap-space-xs">
+              <div class="flex items-center gap-space-xs text-primary-container font-label-sm text-label-sm font-bold">
+                <span class="material-symbols-outlined text-[16px]">help</span> 모험가의 서 (TIPS)
+              </div>
+              <span class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                - 🔥 중요 퀘스트를 완료하면 <strong>💥 CRITICAL 대성공</strong> 효과음과 함께 +30 EXP가 지급됩니다.<br/>
+                - 매일 퀘스트를 1개 이상 등록하면 상단 주간 출석 도장이 활성화됩니다.<br/>
+                - 7일 도장을 모두 채우면 전설 보물상자 가차가 오픈됩니다!
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           VIEW 2: CALENDAR (QUEST TIMELINE LOG) - Stitch _1 Based
+           ======================================================== -->
+      <section id="view-calendar" class="app-view w-full max-w-7xl mx-auto px-margin md:px-margin-md flex-col gap-space-lg hidden">
+        <!-- Banner -->
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md bg-surface-container p-space-md shadow-[6px_6px_0_0_#090D16] border border-slate-border relative overflow-hidden">
+          <div class="flex flex-col gap-space-xs z-10">
+            <div class="flex items-center gap-space-xs text-primary">
+              <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+              <span class="font-label-sm text-label-sm uppercase tracking-widest text-primary-container">ADVENTURE TIMELINE LOG</span>
+            </div>
+            <h1 class="font-headline-lg text-headline-lg text-pixel-white tracking-wide flex items-center gap-space-sm">
+              <span>퀘스트 캘린더</span>
+              <span class="font-label-md text-label-md px-space-sm py-space-xs bg-surface-container-highest text-secondary shadow-sm" id="calBannerDate">2026. 10</span>
+            </h1>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">지난 발자취의 영광과 앞으로의 정복 계획을 한눈에 살펴보는 전술 지도판</p>
+          </div>
+          <div class="z-10 flex items-center gap-space-md bg-surface-container-lowest px-space-md py-space-sm shadow-md border border-slate-border">
+            <div class="w-12 h-12 bg-primary-container/20 flex items-center justify-center text-primary-container">
+              <span class="material-symbols-outlined text-[28px]">local_fire_department</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="font-label-sm text-label-sm text-gold-light uppercase">연속 토벌 스트릭</span>
+              <div class="flex items-baseline gap-space-xs">
+                <span class="font-headline-md text-headline-md text-primary font-bold" id="calStreakDisplay">0일 연속</span>
+                <span class="font-label-sm text-label-sm text-secondary">달성 중!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-md bg-slate-surface p-space-sm shadow-[4px_4px_0_0_#090D16] border border-slate-border">
+          <div class="flex items-center gap-space-xs">
+            <button class="w-10 h-10 bg-surface-container-lowest text-on-surface hover:text-primary flex items-center justify-center shadow-sm border border-slate-border active:translate-x-0.5 active:translate-y-0.5" id="calPrevMonthBtn">
+              <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+            </button>
+            <div class="px-space-md py-space-xs bg-surface-container-lowest shadow-sm border border-slate-border flex items-center gap-space-xs">
+              <span class="material-symbols-outlined text-primary text-[18px]">event</span>
+              <span class="font-title-md text-title-md text-primary font-bold" id="calCurrentMonthLabel">2026년 10월</span>
+            </div>
+            <button class="w-10 h-10 bg-surface-container-lowest text-on-surface hover:text-primary flex items-center justify-center shadow-sm border border-slate-border active:translate-x-0.5 active:translate-y-0.5" id="calNextMonthBtn">
+              <span class="material-symbols-outlined text-[20px]">chevron_right</span>
+            </button>
+            <button class="ml-space-sm px-space-sm py-space-xs bg-primary-container text-on-primary-container font-label-sm text-label-sm hover:brightness-110 shadow-sm border border-gold-dark font-bold active:translate-x-0.5 active:translate-y-0.5 flex items-center gap-space-xs" id="calTodayBtn">
+              <span class="material-symbols-outlined text-[16px]">my_location</span>
+              <span>오늘로 이동</span>
+            </button>
+          </div>
+          <!-- Filter Tabs -->
+          <div class="flex flex-wrap items-center gap-space-xs bg-surface-container-lowest p-space-xs border border-slate-border">
+            <button class="cal-filter-btn px-space-sm py-space-xs font-label-sm text-label-sm bg-primary text-on-primary shadow-sm font-bold" data-filter="all">전체 보기</button>
+            <button class="cal-filter-btn px-space-sm py-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface" data-filter="completed">완료 🗡️</button>
+            <button class="cal-filter-btn px-space-sm py-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface" data-filter="pending">예정 📜</button>
+            <button class="cal-filter-btn px-space-sm py-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface" data-filter="critical">중요 🔥</button>
+          </div>
+        </div>
+
+        <!-- Grid Matrix & Detail Pane -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-lg items-start">
+          <!-- Calendar 7-col Grid -->
+          <div class="lg:col-span-8 flex flex-col gap-space-xs">
+            <div class="grid grid-cols-7 gap-space-xs text-center font-label-sm text-label-sm font-bold">
+              <div class="bg-surface-container-highest py-space-xs text-crimson-critical">일 (SUN)</div>
+              <div class="bg-surface-container-highest py-space-xs text-on-surface">월 (MON)</div>
+              <div class="bg-surface-container-highest py-space-xs text-on-surface">화 (TUE)</div>
+              <div class="bg-surface-container-highest py-space-xs text-on-surface">수 (WED)</div>
+              <div class="bg-surface-container-highest py-space-xs text-on-surface">목 (THU)</div>
+              <div class="bg-surface-container-highest py-space-xs text-on-surface">금 (FRI)</div>
+              <div class="bg-surface-container-highest py-space-xs text-mana-cyan">토 (SAT)</div>
+            </div>
+            <div class="grid grid-cols-7 gap-space-xs" id="calMonthDaysGrid">
+              <!-- Dynamically populated 35-42 days -->
+            </div>
+          </div>
+
+          <!-- Right Detail Log Side Panel -->
+          <div class="lg:col-span-4 bg-surface-container p-space-md shadow-[6px_6px_0_0_#090D16] border border-slate-border flex flex-col gap-space-md">
+            <div class="flex items-center justify-between border-b border-slate-border pb-space-xs">
+              <div class="flex items-center gap-space-xs text-primary">
+                <span class="material-symbols-outlined text-[20px]">assignment</span>
+                <span class="font-title-md text-title-md font-bold" id="calSelectedDateLabel">오늘의 상세 퀘스트</span>
+              </div>
+              <span class="font-label-sm text-label-sm text-secondary bg-surface-container-lowest px-2 py-0.5 border border-slate-border" id="calDayStats">총 0개</span>
+            </div>
+            <div class="flex flex-col gap-space-xs max-h-96 overflow-y-auto pr-1" id="calDayTodoList">
+              <!-- Dynamically loaded -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           VIEW 3: INVENTORY & WEEKLY CHEST GACHA - Stitch _3 Based
+           ======================================================== -->
+      <section id="view-inventory" class="app-view w-full max-w-7xl mx-auto px-margin md:px-margin-md flex-col gap-space-xl hidden">
+        <!-- Hero Gacha Banner -->
+        <div class="relative bg-surface-container-low p-space-md md:p-space-xl shadow-[6px_6px_0_0_#090D16] border border-slate-border overflow-hidden">
+          <div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-md">
+            <div class="inline-flex items-center gap-space-xs bg-surface-container-highest px-space-md py-space-xs shadow-[2px_2px_0_0_#090D16] border border-slate-border">
+              <span class="w-2.5 h-2.5 bg-emerald-glow animate-pulse"></span>
+              <span class="font-label-sm text-label-sm text-secondary tracking-widest uppercase font-bold" id="chestBannerWeekTag">WEEK 01 // 7-DAY CHALLENGE</span>
+            </div>
+            <span class="font-label-sm text-label-sm text-primary-container font-bold flex items-center gap-1">
+              <span class="material-symbols-outlined text-[16px]">stars</span> 7일 연속 출석 시 100% 개봉 가능!
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-lg items-center">
+            <!-- Left Headline & Odds Table -->
+            <div class="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left space-y-space-md">
+              <div class="inline-block bg-primary text-on-primary font-label-sm text-label-sm px-space-sm py-1 shadow-[2px_2px_0_0_#090D16] uppercase font-bold tracking-wider">
+                🎁 7-DAY STREAK VICTORY REWARD
+              </div>
+              <h1 class="font-headline-lg text-headline-lg text-pixel-white tracking-tight">
+                주간 모험 완수! <span class="text-primary-container">[전설의 보물상자]</span>
+              </h1>
+              <p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+                게으름 마왕을 격퇴하고 황금빛 결실을 맺었습니다. 전설의 보물상자를 개봉하여 16비트 캐릭터에게 착용할 특별한 유니크 아티팩트를 획득하세요!
+              </p>
+
+              <!-- Odds Table -->
+              <div class="w-full bg-surface-container-lowest p-space-sm shadow-[inset_2px_2px_0_0_#090D16] border border-slate-border/50">
+                <div class="flex items-center justify-between mb-space-xs font-label-sm text-label-sm text-on-surface-variant">
+                  <span class="flex items-center gap-1 text-primary-container font-bold">
+                    <span class="material-symbols-outlined text-[14px]">casino</span> 가챠 보상 확률표
+                  </span>
+                  <span class="text-pixel-white font-bold">1회 확정 획득</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-space-xs text-center font-label-sm text-label-sm">
+                  <div class="bg-surface-container px-space-xs py-1 shadow-[2px_2px_0_0_#090D16] border border-primary/40">
+                    <span class="block text-primary font-bold">👑 왕관</span>
+                    <span class="text-primary-container font-bold">5% (전설)</span>
+                  </div>
+                  <div class="bg-surface-container px-space-xs py-1 shadow-[2px_2px_0_0_#090D16] border border-tertiary/40">
+                    <span class="block text-tertiary-container font-bold">🪽 천사날개</span>
+                    <span class="text-tertiary font-bold">10% (영웅)</span>
+                  </div>
+                  <div class="bg-surface-container px-space-xs py-1 shadow-[2px_2px_0_0_#090D16] border border-mana-cyan/40">
+                    <span class="block text-mana-cyan font-bold">💫 마법후광</span>
+                    <span class="text-mana-cyan font-bold">20% (영웅)</span>
+                  </div>
+                  <div class="bg-surface-container px-space-xs py-1 shadow-[2px_2px_0_0_#090D16] border border-secondary/40">
+                    <span class="block text-secondary font-bold">🕶️ 선글라스</span>
+                    <span class="text-secondary font-bold">25% (희귀)</span>
+                  </div>
+                  <div class="bg-surface-container px-space-xs py-1 shadow-[2px_2px_0_0_#090D16] border border-slate-border col-span-2 sm:col-span-1">
+                    <span class="block text-on-surface font-bold">🧿 행운부적</span>
+                    <span class="text-on-surface-variant font-bold">40% (희귀)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Interactive Chest Box -->
+            <div class="lg:col-span-5 flex flex-col items-center justify-center p-space-md">
+              <div class="relative w-64 h-64 bg-surface-container-lowest flex items-center justify-center shadow-[inset_4px_4px_0_0_#090D16] border-2 border-primary/30 group cursor-pointer" id="chestBoxContainer">
+                <div class="absolute inset-4 bg-primary-container/15 rounded-full filter blur-xl animate-pulse"></div>
+                <!-- Sparkles -->
+                <div class="absolute top-4 left-6 text-primary-container animate-bounce text-[18px]">✨</div>
+                <div class="absolute top-10 right-8 text-gold-light animate-ping text-[14px]">✦</div>
+                <div class="absolute bottom-6 left-10 text-tertiary animate-pulse text-[16px]">✧</div>
+                <div class="absolute bottom-12 right-6 text-primary-container animate-bounce text-[20px]">✨</div>
+
+                <!-- Chest Pixel SVG -->
+                <div class="relative z-10 flex flex-col items-center transition-transform group-hover:scale-105 duration-200" id="chestSpriteSvg">
+                  <svg class="drop-shadow-[0_8px_0_rgba(0,0,0,0.8)]" fill="none" height="110" viewbox="0 0 128 110" width="128" xmlns="http://www.w3.org/2000/svg">
+                    <rect fill="#78350F" height="56" width="88" x="20" y="44"></rect>
+                    <rect fill="#B45309" height="48" width="96" x="16" y="48"></rect>
+                    <rect fill="#FBBF24" height="56" width="12" x="28" y="44"></rect>
+                    <rect fill="#FBBF24" height="56" width="12" x="88" y="44"></rect>
+                    <rect fill="#451A03" height="8" width="88" x="20" y="92"></rect>
+                    <rect fill="#FDE68A" height="48" width="4" x="24" y="48"></rect>
+                    <rect fill="#FDE68A" height="48" width="4" x="84" y="48"></rect>
+                    <path d="M24 24H104V44H24V24Z" fill="#D97706"></path>
+                    <path d="M28 16H100V24H28V16Z" fill="#F59E0B"></path>
+                    <path d="M36 10H92V16H36V10Z" fill="#FBBF24"></path>
+                    <circle cx="64" cy="58" r="6" fill="#FDE68A" stroke="#78350F" stroke-width="2"/>
+                    <rect x="62" y="58" width="4" height="8" fill="#78350F"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Open Button -->
+              <button id="openChestActionBtn" class="mt-space-md w-64 bg-primary-container hover:bg-gold-light text-on-primary-container font-headline-sm text-headline-sm py-space-sm shadow-[4px_4px_0_0_#090D16] border border-gold-dark font-bold active:translate-x-1 active:translate-y-1 transition-all flex items-center justify-center gap-space-xs">
+                <span class="material-symbols-outlined text-[24px]">key</span>
+                <span>보물상자 열기!</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inventory Grid & Live Fitting Room -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-lg items-start">
+          <!-- Fitting Room (Left 5 Cols) -->
+          <div class="lg:col-span-5 bg-surface-container p-space-md md:p-space-lg shadow-[6px_6px_0_0_#090D16] border border-slate-border flex flex-col items-center text-center gap-space-md">
+            <div class="flex items-center justify-between w-full border-b border-slate-border pb-space-xs">
+              <span class="font-title-md text-title-md text-primary font-bold">16비트 모험가 피팅룸</span>
+              <span class="font-label-sm text-label-sm text-secondary bg-surface-container-lowest px-2 py-0.5 border border-slate-border">실시간 반영</span>
+            </div>
+            
+            <div class="p-3 bg-surface-container-lowest shadow-[inset_3px_3px_0_0_#090D16] border-2 border-primary/40 w-48 h-48 flex items-center justify-center overflow-hidden" id="inventoryFittingAvatar">
+              <!-- Live 16-Bit Avatar Rendered Here -->
+            </div>
+
+            <div class="w-full bg-surface-container-lowest p-space-sm border border-slate-border text-left">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-label-sm text-label-sm text-on-surface-variant">현재 장착 악세서리:</span>
+                <span class="font-label-sm text-label-sm text-primary-container font-bold" id="fittingAccName">[없음]</span>
+              </div>
+              <p class="font-body-sm text-body-sm text-on-surface-variant" id="fittingAccDesc">
+                우측 인벤토리에서 아이템을 클릭하면 캐릭터에게 착용/해제할 수 있습니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- Inventory Grid Slots (Right 7 Cols) -->
+          <div class="lg:col-span-7 bg-surface-container p-space-md md:p-space-lg shadow-[6px_6px_0_0_#090D16] border border-slate-border flex flex-col gap-space-md">
+            <div class="flex items-center justify-between border-b border-slate-border pb-space-xs">
+              <div class="flex items-center gap-space-xs">
+                <span class="material-symbols-outlined text-primary-container text-[20px]">backpack</span>
+                <h3 class="font-title-md text-title-md text-primary uppercase">보유한 악세서리 보관함</h3>
+              </div>
+              <span class="font-label-sm text-label-sm text-on-surface-variant" id="inventoryCountText">0 / 8 수집</span>
+            </div>
+
+            <!-- Slots Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm" id="inventoryGridSlots">
+              <!-- Dynamically populated from ACCESSORY_CODEX & store.inventory -->
+            </div>
+
+            <div class="bg-surface-container-lowest p-space-sm border border-slate-border text-on-surface-variant font-label-sm text-label-sm flex items-center justify-between">
+              <span>💡 획득한 아이템을 클릭하면 슬롯에 즉시 장착/해제됩니다.</span>
+              <span class="text-primary font-bold">영구 보관</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER (Stitch Standard) -->
+    <footer class="w-full bg-surface-container-lowest py-space-lg shadow-[0_-4px_0_0_#090D16] border-t border-slate-border">
+      <div class="max-w-7xl mx-auto px-margin md:px-margin-md flex flex-col md:flex-row items-center justify-between gap-space-md text-center md:text-left">
+        <div class="flex flex-col gap-space-xs">
+          <span class="font-headline-sm text-headline-sm text-primary font-bold">갓생 모험가 투두 (RPG QUEST TODO)</span>
+          <span class="font-body-sm text-body-sm text-on-surface-variant font-pixel">일상을 모험처럼 즐기는 16비트 레트로 태스크 게이미피케이션 엔진</span>
+        </div>
+        <div class="flex items-center gap-space-md font-label-sm text-label-sm text-on-surface-variant">
+          <span class="flex items-center gap-space-xs">
+            <span class="w-2 h-2 bg-emerald-glow inline-block animate-pulse"></span>
+            SERVER 01 ONLINE
+          </span>
+          <span>SESSION: ADVENTURER_ACTIVE</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ========================================================
+       FIRST-TIME & MANUAL: CLASS SELECTION ALTAR MODAL (Stitch _4 Based)
+       ======================================================== -->
+  <div class="fixed inset-0 z-50 bg-slate-dungeon/95 backdrop-blur-md hidden items-center justify-center p-space-sm md:p-space-md overflow-y-auto" id="classSelectModal">
+    <div class="relative w-full max-w-5xl my-auto bg-slate-surface shadow-[8px_8px_0_0_#000000] border-2 border-primary/50 p-space-xs">
+      <!-- Decorative corner pixels -->
+      <div class="absolute -top-1.5 -left-1.5 w-3 h-3 bg-primary-container shadow-[2px_2px_0_0_#090D16]"></div>
+      <div class="absolute -top-1.5 -right-1.5 w-3 h-3 bg-primary-container shadow-[2px_2px_0_0_#090D16]"></div>
+      <div class="absolute -bottom-1.5 -left-1.5 w-3 h-3 bg-primary-container shadow-[2px_2px_0_0_#090D16]"></div>
+      <div class="absolute -bottom-1.5 -right-1.5 w-3 h-3 bg-primary-container shadow-[2px_2px_0_0_#090D16]"></div>
+
+      <div class="bg-surface-container-lowest p-space-sm md:p-space-lg flex flex-col gap-space-md">
+        <!-- Header -->
+        <header class="flex items-start justify-between gap-space-md pb-space-sm bg-surface-container-low px-space-md py-space-sm border border-slate-border shadow-[inset_2px_2px_0_0_#090D16]">
+          <div class="flex items-start gap-space-sm">
+            <div class="w-12 h-12 bg-surface-container flex items-center justify-center shadow-[2px_2px_0_0_#090D16] shrink-0 border border-slate-border">
+              <span class="material-symbols-outlined text-primary-container text-[28px]">account_tree</span>
+            </div>
+            <div class="flex flex-col">
+              <div class="flex items-center gap-space-xs">
+                <span class="font-label-sm text-label-sm text-primary-container tracking-widest">[ALTAR OF AWAKENING]</span>
+                <span class="inline-block w-2 h-2 bg-emerald-glow animate-pulse"></span>
+              </div>
+              <h1 class="font-headline-sm md:font-headline-md text-headline-sm md:text-headline-md text-pixel-white tracking-wide font-bold">
+                ⚔️ 모험가의 전직 제단 <span class="text-primary-container text-body-md font-label-md">(CLASS SELECT)</span>
+              </h1>
+              <p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                함께할 4가지 클래스 중 하나를 선택하세요! 각 직업은 고유한 버프와 20단계(Lv.1~100) 진화 로드맵을 가집니다.
+              </p>
+            </div>
+          </div>
+          <!-- Close button only available if user already picked a class -->
+          <button aria-label="창 닫기" class="w-9 h-9 bg-surface-container-high hover:bg-crimson-dark text-on-surface hover:text-pixel-white flex items-center justify-center shadow-[2px_2px_0_0_#090D16] border border-slate-border active:translate-x-0.5 active:translate-y-0.5 transition-all group shrink-0 hidden" id="closeClassModalBtn">
+            <span class="material-symbols-outlined text-[20px] font-bold group-hover:rotate-90 transition-transform">close</span>
+          </button>
+        </header>
+
+        <!-- 4 Classes Grid (Showcasing 16-Bit Pixel Art Sprites & 7-Tier Evolution Lineages) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md" id="classCardsGroup">
+          <!-- 1. Warrior -->
+          <article class="class-card-item relative bg-slate-surface p-space-md flex flex-col justify-between cursor-pointer transition-all border border-slate-border shadow-[4px_4px_0_0_#090D16] group" data-class="warrior">
+            <div>
+              <div class="relative w-full h-44 bg-slate-900/90 overflow-hidden flex items-center justify-center shadow-[inset_2px_2px_0_0_#090D16] mb-space-sm border border-slate-border/50" id="classPreviewWarrior">
+                <!-- Rendered by 16-bit sprite engine -->
+              </div>
+              <div class="flex items-center gap-space-xs mb-1">
+                <span class="material-symbols-outlined text-primary-container text-[20px]">swords</span>
+                <h2 class="font-headline-sm text-headline-sm text-pixel-white font-bold">전사 (Warrior)</h2>
+              </div>
+              <p class="font-body-sm text-[11px] text-primary mb-space-xs leading-snug font-pixel">
+                견습검사 ➔ 강철기사 ➔ 흑철기병 ➔ 룬소드맨 ➔ 성기사 ➔ 드래곤나이트 ➔ 투신
+              </p>
+              <div class="bg-surface-container-lowest p-space-xs mb-space-sm border border-slate-border/50 space-y-1">
+                <div class="flex items-center justify-between text-on-surface font-label-sm text-[11px]">
+                  <span class="text-on-surface-variant flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[13px] text-crimson-critical">fitness_center</span> 체력 루틴 EXP
+                  </span>
+                  <span class="text-secondary font-bold">+15%</span>
+                </div>
+                <div class="flex items-center justify-between text-on-surface font-label-sm text-[11px]">
+                  <span class="text-on-surface-variant flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[13px] text-tertiary">shield</span> 기본 방어력
+                  </span>
+                  <span class="text-tertiary font-bold">+5 DEF</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1 pt-space-xs">
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#검과방패</span>
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#중갑진화</span>
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#투신각성</span>
+            </div>
+          </article>
+
+          <!-- 2. Archer -->
+          <article class="class-card-item relative bg-slate-surface p-space-md flex flex-col justify-between cursor-pointer transition-all border border-slate-border shadow-[4px_4px_0_0_#090D16] group" data-class="archer">
+            <div>
+              <div class="relative w-full h-44 bg-slate-900/90 overflow-hidden flex items-center justify-center shadow-[inset_2px_2px_0_0_#090D16] mb-space-sm border border-slate-border/50" id="classPreviewArcher">
+                <!-- Rendered by 16-bit sprite engine -->
+              </div>
+              <div class="flex items-center gap-space-xs mb-1">
+                <span class="material-symbols-outlined text-secondary text-[20px]">adjust</span>
+                <h2 class="font-headline-sm text-headline-sm text-pixel-white font-bold">궁수 (Archer)</h2>
+              </div>
+              <p class="font-body-sm text-[11px] text-secondary mb-space-xs leading-snug font-pixel">
+                사냥꾼 ➔ 레인저 ➔ 명사수 ➔ 엘프아처 ➔ 뇌전신궁 ➔ 차원저격수 ➔ 성좌신궁
+              </p>
+              <div class="bg-surface-container-lowest p-space-xs mb-space-sm border border-slate-border/50 space-y-1">
+                <div class="flex items-center justify-between text-on-surface font-label-sm text-[11px]">
+                  <span class="text-on-surface-variant flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[13px] text-secondary">timer</span> 집중 업무 EXP
+                  </span>
+                  <span class="text-secondary font-bold">+15%</span>
+                </div>
+                <div class="flex items-center justify-between text-on-surface font-label-sm text-[11px]">
+                  <span class="text-on-surface-variant flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[13px] text-primary-container">flash_on</span> 치명타 확률
+                  </span>
+                  <span class="text-primary-container font-bold">+10% CRIT</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1 pt-space-xs">
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#활과화살</span>
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#엘프신궁</span>
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#성좌저격</span>
+            </div>
+          </article>
+
+          <!-- 3. Mage -->
+          <article class="class-card-item relative bg-slate-surface p-space-md flex flex-col justify-between cursor-pointer transition-all border border-slate-border shadow-[4px_4px_0_0_#090D16] group" data-class="mage">
+            <div>
+              <div class="relative w-full h-44 bg-slate-900/90 overflow-hidden flex items-center justify-center shadow-[inset_2px_2px_0_0_#090D16] mb-space-sm border border-slate-border/50" id="classPreviewMage">
+                <!-- Rendered by 16-bit sprite engine -->
+              </div>
+              <div class="flex items-center gap-space-xs mb-1">
+                <span class="material-symbols-outlined text-mana-cyan text-[20px]">auto_fix_high</span>
+                <h2 class="font-headline-sm text-headline-sm text-pixel-white font-bold">마법사 (Mage)</h2>
+              </div>
+              <p class="font-body-sm text-[11px] text-tertiary mb-space-xs leading-snug font-pixel">
+                견습마법사 ➔ 원소마도사 ➔ 아크메이지 ➔ 빙뢰현자 ➔ 홍련대마도사 ➔ 시공마도황 ➔ 마도신
+              </p>
+              <div class="bg-surface-container-lowest p-space-xs mb-space-sm border border-slate-border/50 space-y-1">
+                <div class="flex items-center justify-between text-on-surface font-label-sm text-[11px]">
+                  <span class="text-on-surface-variant flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[13px] text-mana-cyan">menu_book</span> 독서/탐구 EXP
+                  </span>
+                  <span class="text-mana-cyan font-bold">+15%</span>
+                </div>
+                <div class="flex items-center justify-between text-on-surface font-label-sm text-[11px]">
+                  <span class="text-on-surface-variant flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[13px] text-tertiary">water_drop</span> 마나 회복속도
+                  </span>
+                  <span class="text-tertiary font-bold">+20% MP</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1 pt-space-xs">
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#마도서와스태프</span>
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#원소현자</span>
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#마도신각성</span>
+            </div>
+          </article>
+
+          <!-- 4. Cute Beast -->
+          <article class="class-card-item relative bg-slate-surface p-space-md flex flex-col justify-between cursor-pointer transition-all border border-slate-border shadow-[4px_4px_0_0_#090D16] group" data-class="beast">
+            <div>
+              <div class="relative w-full h-44 bg-slate-900/90 overflow-hidden flex items-center justify-center shadow-[inset_2px_2px_0_0_#090D16] mb-space-sm border border-slate-border/50" id="classPreviewBeast">
+                <!-- Rendered by 16-bit sprite engine -->
+              </div>
+              <div class="flex items-center gap-space-xs mb-1">
+                <span class="material-symbols-outlined text-primary-fixed text-[20px]">pets</span>
+                <h2 class="font-headline-sm text-headline-sm text-pixel-white font-bold">비스트 (Beast)</h2>
+              </div>
+              <p class="font-body-sm text-[11px] text-gold-light mb-space-xs leading-snug font-pixel">
+                아기맹수 ➔ 성체맹수 ➔ 백호 ➔ 펜리르 ➔ 정령 ➔ 불사조 ➔ 신수
+              </p>
+              <div class="bg-surface-container-lowest p-space-xs mb-space-sm border border-slate-border/50 space-y-1">
+                <div class="flex items-center justify-between text-on-surface font-label-sm text-[11px]">
+                  <span class="text-on-surface-variant flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[13px] text-primary">bedtime</span> 휴식/수면 안정
+                  </span>
+                  <span class="text-primary-container font-bold">+25% REC</span>
+                </div>
+                <div class="flex items-center justify-between text-on-surface font-label-sm text-[11px]">
+                  <span class="text-on-surface-variant flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[13px] text-emerald-glow">favorite</span> 스트레스 완화
+                  </span>
+                  <span class="text-emerald-glow font-bold">+30% SAN</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1 pt-space-xs">
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#백호와펜리르</span>
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#정령과불사조</span>
+              <span class="bg-surface-container-high px-1.5 py-0.5 font-label-sm text-[10px] text-on-surface-variant">#천상신수</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- Initial Name Input & Start Button Section -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-space-md pt-space-sm border-t border-slate-border bg-surface-container-lowest p-space-sm">
+          <div class="flex items-center gap-space-sm w-full sm:w-auto">
+            <span class="font-label-sm text-label-sm text-primary-container font-bold whitespace-nowrap">모험가 이름:</span>
+            <input type="text" id="initHeroNameInput" value="퐁이" maxlength="12" placeholder="모험가 이름을 입력하세요" class="bg-surface-container-high text-pixel-white px-3 py-1 font-label-md text-label-md shadow-[inset_2px_2px_0_0_#090D16] border border-primary/50 focus:outline-none focus:border-primary-container w-48"/>
+          </div>
+          <button class="w-full sm:w-auto bg-primary-container hover:bg-gold-light text-on-primary-container font-headline-sm text-headline-sm px-space-xl py-space-sm shadow-[4px_4px_0_0_#090D16] border border-gold-dark font-bold active:translate-x-1 active:translate-y-1 transition-all flex items-center justify-center gap-space-xs cursor-pointer" id="confirmClassBtn">
+            <span class="material-symbols-outlined text-[24px]">swords</span>
+            <span>갓생 모험 시작하기!</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 2: 20-STAGE EVOLUTION & TITLE CODEX
+       ======================================================== -->
+  <div class="fixed inset-0 z-50 bg-slate-dungeon/80 backdrop-blur-sm hidden items-center justify-center p-space-md" id="codexModal">
+    <div class="bg-surface-container shadow-[8px_8px_0_0_#000000] border-2 border-slate-border max-w-2xl w-full p-space-lg flex flex-col gap-space-md relative">
+      <div class="flex items-center justify-between pb-space-xs border-b border-slate-border">
+        <div class="flex items-center gap-space-xs">
+          <span class="material-symbols-outlined text-primary-container">menu_book</span>
+          <span class="font-headline-sm text-headline-sm text-primary font-bold">칭호 도감 (20단계 진화 로드맵)</span>
+        </div>
+        <button class="text-on-surface hover:text-crimson-critical transition-colors cursor-pointer" id="closeCodexModalBtn">
+          <span class="material-symbols-outlined text-[24px]">close</span>
+        </button>
+      </div>
+
+      <!-- Class Tab Switcher inside Codex -->
+      <div class="flex items-center gap-1 bg-surface-container-lowest p-1 border border-slate-border" id="codexClassTabs">
+        <button class="flex-1 py-1 font-label-sm text-[12px] bg-primary text-on-primary font-bold shadow-sm" data-tab-class="warrior">전사 (20)</button>
+        <button class="flex-1 py-1 font-label-sm text-[12px] text-on-surface-variant hover:text-on-surface" data-tab-class="archer">궁수 (20)</button>
+        <button class="flex-1 py-1 font-label-sm text-[12px] text-on-surface-variant hover:text-on-surface" data-tab-class="mage">마법사 (20)</button>
+        <button class="flex-1 py-1 font-label-sm text-[12px] text-on-surface-variant hover:text-on-surface" data-tab-class="beast">비스트 (20)</button>
+      </div>
+
+      <!-- 20 Stages List -->
+      <div class="flex flex-col gap-space-xs max-h-96 overflow-y-auto pr-1" id="codexStagesList">
+        <!-- Dynamically rendered 20 items -->
+      </div>
+
+      <div class="pt-space-xs flex justify-end border-t border-slate-border">
+        <button class="bg-primary-container text-on-primary-container font-label-md text-label-md px-space-lg py-space-xs shadow-[3px_3px_0_0_#090D16] border border-gold-dark font-bold active:translate-x-1 active:translate-y-1 cursor-pointer" id="codexCloseBtn">
+          닫기 (ESC)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 3: LEVEL UP CELEBRATION MODAL
+       ======================================================== -->
+  <div class="fixed inset-0 z-50 bg-slate-dungeon/85 backdrop-blur-md hidden items-center justify-center p-space-md" id="levelUpModal">
+    <div class="bg-slate-surface shadow-[10px_10px_0_0_#000000] border-2 border-primary-container max-w-md w-full p-space-lg flex flex-col items-center text-center gap-space-md relative animate-bounce" style="animation-duration: 0.6s; animation-iteration-count: 1;">
+      <div class="w-16 h-16 bg-primary-container/20 flex items-center justify-center text-primary-container rounded-full animate-spin" style="animation-duration: 4s;">
+        <span class="material-symbols-outlined text-[40px]">military_tech</span>
+      </div>
+      <div class="flex flex-col gap-1">
+        <span class="font-label-sm text-label-sm text-gold-light tracking-widest uppercase">CONGRATULATIONS!</span>
+        <h2 class="font-headline-lg text-headline-lg text-primary-container font-bold">★ LEVEL UP! ★</h2>
+        <span class="font-title-md text-title-md text-pixel-white" id="levelUpTitleText">Lv.1 -> Lv.2 달성!</span>
+      </div>
+      <div class="w-full bg-surface-container-lowest p-space-sm border border-slate-border text-left">
+        <div class="flex items-center justify-between font-label-sm text-label-sm mb-1">
+          <span class="text-on-surface-variant">부여된 칭호:</span>
+          <span class="text-secondary font-bold" id="levelUpNewTitleBadge">[초보 모험가]</span>
+        </div>
+        <div class="flex items-center justify-between font-label-sm text-label-sm">
+          <span class="text-on-surface-variant">진화 외형 효과:</span>
+          <span class="text-primary font-bold">오라 &amp; 스탯 상승!</span>
+        </div>
+      </div>
+      <button class="w-full bg-primary-container hover:bg-gold-light text-on-primary-container font-label-lg text-label-lg py-space-sm shadow-[4px_4px_0_0_#090D16] border border-gold-dark font-bold active:translate-x-1 active:translate-y-1 cursor-pointer" id="levelUpConfirmBtn">
+        영광 수락하기 ⚔️
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 4: GACHA REWARD CLAIM MODAL
+       ======================================================== -->
+  <div class="fixed inset-0 z-50 bg-slate-dungeon/85 backdrop-blur-md hidden items-center justify-center p-space-md" id="gachaModal">
+    <div class="bg-slate-surface shadow-[10px_10px_0_0_#000000] border-2 border-primary-container max-w-md w-full p-space-lg flex flex-col items-center text-center gap-space-md relative">
+      <div class="text-5xl animate-bounce" id="gachaIconDisplay">👑</div>
+      <div class="flex flex-col gap-1">
+        <span class="font-label-sm text-label-sm text-secondary tracking-widest uppercase" id="gachaRarityTag">전설 (Legendary)</span>
+        <h2 class="font-headline-lg text-headline-lg text-primary font-bold" id="gachaAccTitle">황금 왕관</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant" id="gachaAccDesc">7일 연속 출석을 완수한 모험가에게 내려진 찬란한 보물</p>
+      </div>
+      <div class="w-full bg-surface-container-lowest p-space-sm border border-slate-border">
+        <span class="font-label-sm text-label-sm text-primary-container font-bold" id="gachaStatTag">+25% 올스탯 버프</span>
+      </div>
+      <div class="flex items-center gap-space-sm w-full">
+        <button class="flex-1 bg-primary-container text-on-primary-container font-label-md text-label-md py-2 shadow-[2px_2px_0_0_#090D16] border border-gold-dark font-bold active:translate-x-1 active:translate-y-1 cursor-pointer" id="gachaEquipNowBtn">
+          즉시 착용하기
+        </button>
+        <button class="flex-1 bg-surface-container text-on-surface font-label-md text-label-md py-2 shadow-[2px_2px_0_0_#090D16] border border-slate-border hover:bg-surface-bright cursor-pointer" id="gachaCloseBtn">
+          보관하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 5: DEV CHEAT & SETTINGS MODAL
+       ======================================================== -->
+  <div class="fixed inset-0 z-50 bg-slate-dungeon/80 backdrop-blur-sm hidden items-center justify-center p-space-md" id="settingsModal">
+    <div class="bg-surface-container shadow-[8px_8px_0_0_#000000] border-2 border-slate-border max-w-md w-full p-space-lg flex flex-col gap-space-md relative">
+      <div class="flex items-center justify-between pb-space-xs border-b border-slate-border">
+        <div class="flex items-center gap-space-xs text-primary">
+          <span class="material-symbols-outlined text-[20px]">tune</span>
+          <span class="font-headline-sm text-headline-sm font-bold">설정 &amp; 빠른 테스트 치트</span>
+        </div>
+        <button class="text-on-surface hover:text-crimson-critical cursor-pointer" id="closeSettingsModalBtn">
+          <span class="material-symbols-outlined text-[24px]">close</span>
+        </button>
+      </div>
+
+      <div class="space-y-space-sm">
+        <span class="font-label-sm text-label-sm text-primary-container block font-bold">⚡ 모험가 빠른 테스트 치트 도구 (심사용)</span>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">
+          100레벨 진화 시스템이나 7일 출석 보물상자 가차를 즉각 확인해볼 수 있는 시연용 치트 버튼들입니다.
+        </p>
+
+        <div class="grid grid-cols-2 gap-space-xs pt-space-xs">
+          <button class="bg-surface-container-lowest hover:bg-surface-bright text-primary font-label-sm text-label-sm p-2 border border-slate-border shadow-sm flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5 cursor-pointer" id="cheatExpBtn">
+            <span>⚡ 경험치 +50 획득</span>
+          </button>
+          <button class="bg-surface-container-lowest hover:bg-surface-bright text-secondary font-label-sm text-label-sm p-2 border border-slate-border shadow-sm flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5 cursor-pointer" id="cheatLevelBtn">
+            <span>🚀 레벨 5 즉시 상승</span>
+          </button>
+          <button class="bg-surface-container-lowest hover:bg-surface-bright text-gold-light font-label-sm text-label-sm p-2 border border-slate-border shadow-sm flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5 cursor-pointer" id="cheatAttendBtn">
+            <span>📅 7일 출석 도장 완료</span>
+          </button>
+          <button class="bg-surface-container-lowest hover:bg-surface-bright text-mana-cyan font-label-sm text-label-sm p-2 border border-slate-border shadow-sm flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5 cursor-pointer" id="cheatOpenClassModalBtn">
+            <span>⚔️ 직업 변경 제단 열기</span>
+          </button>
+        </div>
+
+        <div class="pt-space-sm border-t border-slate-border flex justify-between items-center">
+          <button class="text-crimson-critical font-label-sm text-label-sm hover:underline cursor-pointer" id="resetDataBtn">
+            🔄 전체 데이터 초기화
+          </button>
+          <button class="bg-primary-container text-on-primary-container font-label-sm text-label-sm px-space-md py-1 border border-gold-dark font-bold shadow-sm cursor-pointer" id="closeSettingsOkBtn">
+            닫기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- ========================================================
+       MODAL 6: EVOLUTION COMPARISON MODAL (BEFORE VS AFTER)
+       ======================================================== -->
+  <div class="fixed inset-0 z-50 bg-slate-dungeon/90 backdrop-blur-md hidden items-center justify-center p-space-sm md:p-space-md overflow-y-auto" id="evolutionModal">
+    <div class="bg-slate-surface shadow-[10px_10px_0_0_#000000] border-2 border-primary-container max-w-3xl w-full p-space-md md:p-space-lg flex flex-col gap-space-md relative">
+      
+      <!-- Header -->
+      <div class="flex items-center justify-between pb-space-xs border-b border-slate-border">
+        <div class="flex items-center gap-space-xs">
+          <span class="material-symbols-outlined text-primary-container text-[26px]">auto_awesome</span>
+          <div>
+            <h2 class="font-headline-sm text-headline-sm text-primary font-bold">★ 캐릭터 외형 진화 비교 &amp; 각성 도감 (EVOLUTION COMPARE) ★</h2>
+            <span class="font-label-sm text-label-sm text-on-surface-variant font-pixel">칭호 변화에 따라 캐릭터의 실제 장비·무기·종족 외형이 웅장하게 진화합니다!</span>
+          </div>
+        </div>
+        <button class="text-on-surface hover:text-crimson-critical cursor-pointer" id="closeEvolutionModalBtn">
+          <span class="material-symbols-outlined text-[24px]">close</span>
+        </button>
+      </div>
+
+      <!-- Class & Stage Interactive Switcher Bar -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-2 bg-surface-container-lowest p-2 border border-slate-border">
+        <div class="flex items-center gap-1 w-full sm:w-auto" id="evoCompareClassTabs">
+          <button type="button" class="evo-class-btn px-2.5 py-1 font-label-sm text-[11px] bg-primary text-on-primary font-bold" data-evo-class="warrior">⚔️ 전사</button>
+          <button type="button" class="evo-class-btn px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant hover:text-on-surface" data-evo-class="archer">🏹 궁수</button>
+          <button type="button" class="evo-class-btn px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant hover:text-on-surface" data-evo-class="mage">🧙 마법사</button>
+          <button type="button" class="evo-class-btn px-2.5 py-1 font-label-sm text-[11px] text-on-surface-variant hover:text-on-surface" data-evo-class="beast">🐾 비스트</button>
+        </div>
+        <div class="flex items-center gap-1.5 w-full sm:w-auto justify-end">
+          <button type="button" id="evoPrevStageBtn" class="bg-surface-container hover:bg-surface-bright text-on-surface px-2.5 py-1 font-label-sm text-[11px] border border-slate-border cursor-pointer active:translate-y-0.5">
+            ◀ 이전 단계
+          </button>
+          <span id="evoStageIndicator" class="font-label-sm text-[11px] text-primary-container font-bold px-2">STAGE 01 ➔ 02</span>
+          <button type="button" id="evoNextStageBtn" class="bg-surface-container hover:bg-surface-bright text-secondary px-2.5 py-1 font-label-sm text-[11px] border border-secondary/40 font-bold cursor-pointer active:translate-y-0.5">
+            다음 단계 ▶
+          </button>
+        </div>
+      </div>
+
+      <!-- Before vs After Comparison Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-11 gap-space-sm items-center my-space-xs">
+        
+        <!-- Left: BEFORE Form (md:col-span-5) -->
+        <div class="md:col-span-5 bg-surface-container-lowest p-space-md border border-slate-border flex flex-col items-center text-center gap-space-xs shadow-[inset_2px_2px_0_0_#090D16]">
+          <span class="font-label-sm text-[11px] text-on-surface-variant bg-surface-container px-2 py-0.5 border border-slate-border/50 font-bold uppercase tracking-wider">
+            [ 이전 모습 (BEFORE) ]
+          </span>
+          <span class="font-label-sm text-label-sm text-outline font-bold" id="evolutionBeforeStageTag">STAGE 01</span>
+          
+          <!-- Avatar Frame -->
+          <div class="w-44 h-44 bg-slate-900/90 relative my-1 p-1 border border-slate-border flex items-center justify-center overflow-hidden group" id="evolutionBeforeAvatar">
+            <!-- Rendered before avatar -->
+          </div>
+
+          <h3 class="font-title-md text-title-md text-on-surface font-bold" id="evolutionBeforeTitle">[초급 견습 검사]</h3>
+          <p class="font-body-sm text-[12px] text-on-surface-variant min-h-[36px]" id="evolutionBeforeDesc">기초 수련을 마친 상태</p>
+          <div class="w-full bg-surface-container/60 p-1 border border-slate-border text-[11px] text-outline font-pixel" id="evolutionBeforePerk">
+            특성: +10% 체력 루틴 EXP
+          </div>
+        </div>
+
+        <!-- Center: Animated Evolve Arrow (md:col-span-1) -->
+        <div class="md:col-span-1 flex flex-col items-center justify-center py-2">
+          <div class="w-10 h-10 rounded-full bg-primary-container/20 border border-primary-container flex items-center justify-center text-primary-container animate-pulse">
+            <span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+          </div>
+          <span class="font-label-sm text-[10px] text-gold-light font-bold mt-1 tracking-widest uppercase">EVOLVE!</span>
+        </div>
+
+        <!-- Right: AFTER Form (md:col-span-5) -->
+        <div class="md:col-span-5 bg-surface-container p-space-md border-2 border-primary-container flex flex-col items-center text-center gap-space-xs shadow-[0_0_16px_2px_rgba(251,191,36,0.35)] relative overflow-hidden">
+          <div class="absolute -top-2 -right-2 bg-crimson-critical text-pixel-white text-[9px] px-3 py-0.5 font-bold uppercase rotate-12 shadow">EVOLVED!</div>
+          <span class="font-label-sm text-[11px] text-primary-container bg-surface-container-lowest px-2 py-0.5 border border-primary-container/60 font-bold uppercase tracking-wider">
+            [ 진화한 모습 (AFTER) ]
+          </span>
+          <span class="font-label-sm text-label-sm text-secondary font-bold" id="evolutionAfterStageTag">STAGE 02</span>
+
+          <!-- Avatar Frame -->
+          <div class="w-44 h-44 bg-slate-900/90 relative my-1 p-1 border-2 border-primary-container flex items-center justify-center overflow-hidden group" id="evolutionAfterAvatar">
+            <!-- Rendered after avatar -->
+          </div>
+
+          <h3 class="font-title-md text-title-md text-primary font-bold" id="evolutionAfterTitle">[중급 견습 검사]</h3>
+          <p class="font-body-sm text-[12px] text-on-surface min-h-[36px]" id="evolutionAfterDesc">새로운 외형과 오라가 개방되었습니다</p>
+          <div class="w-full bg-surface-container-lowest p-1 border border-primary/40 text-[11px] text-secondary font-bold font-pixel" id="evolutionAfterPerk">
+            각성 특성: +15% 기초 근력
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Footer -->
+      <div class="pt-space-xs flex justify-end gap-space-sm border-t border-slate-border">
+        <button class="w-full bg-primary-container hover:bg-gold-light text-on-primary-container font-label-lg text-label-lg py-2.5 shadow-[4px_4px_0_0_#090D16] border border-gold-dark font-bold active:translate-x-1 active:translate-y-1 cursor-pointer flex items-center justify-center gap-2" id="evolutionConfirmBtn">
+          <span class="material-symbols-outlined text-[20px]">swords</span>
+          <span>새로운 모습으로 모험 계속하기!</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic Scripts -->
+  <script src="pixel_sprites.js"></script>
+  <script src="app.js"></script>
+  <script src="ui.js"></script>
+</body>
+</html>

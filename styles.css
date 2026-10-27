@@ -1,0 +1,183 @@
+/* ========================================================
+   RPG Quest Todo (갓생 모험가 투두리스트) - Retro Pixel Styling
+   ======================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Space+Mono:wght@400;700&family=DotGothic16&display=swap');
+@import url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff');
+
+@font-face {
+  font-family: 'DungGeunMo';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Space Mono', 'DungGeunMo', monospace, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined' !important;
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
+/* Pixel Rendering Optimization */
+.pixelated {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Custom Scrollbars in Retro Dungeon Style */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060e20;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border: 1px solid #090D16;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #fbbf24;
+}
+
+/* Screen Shake Effect for CRITICAL Strike */
+@keyframes screen-shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-2px, -3px) rotate(-1deg); }
+  20% { transform: translate(-4px, 0px) rotate(1deg); }
+  30% { transform: translate(4px, 3px) rotate(0deg); }
+  40% { transform: translate(2px, -2px) rotate(1deg); }
+  50% { transform: translate(-2px, 3px) rotate(-1deg); }
+  60% { transform: translate(-4px, 1px) rotate(0deg); }
+  70% { transform: translate(4px, 2px) rotate(-1deg); }
+  80% { transform: translate(-2px, -2px) rotate(1deg); }
+  90% { transform: translate(2px, 3px) rotate(0deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.shake-screen {
+  animation: screen-shake 0.45s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Critical Impact Flash */
+@keyframes crit-flash {
+  0% { opacity: 0.9; }
+  50% { opacity: 0.4; }
+  100% { opacity: 0; }
+}
+
+.crit-impact-overlay {
+  animation: crit-flash 0.5s ease-out forwards;
+}
+
+/* Floating EXP Gain Text Animation */
+@keyframes float-exp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-24px) scale(1.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-48px) scale(0.9);
+  }
+}
+
+.floating-exp-text {
+  animation: float-exp 1.2s ease-out forwards;
+}
+
+/* Chest Golden Glow Pulse */
+@keyframes chest-radiance {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 25px rgba(251, 191, 36, 0.85));
+  }
+}
+
+.radiant-chest {
+  animation: chest-radiance 2s infinite ease-in-out;
+}
+
+/* 8-bit Pixel Corner Cut Technique */
+.pixel-corners {
+  clip-path: polygon(
+    0 4px, 4px 4px, 4px 0,
+    calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+    100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%,
+    4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+  );
+}
+
+/* Active Button Shift Effect */
+.btn-pixel {
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.btn-pixel:active {
+  transform: translate(3px, 3px) !important;
+  box-shadow: 1px 1px 0px 0px #090D16 !important;
+}
+
+/* Critical Pulsing Flame Border */
+@keyframes flame-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 2px #EF4444, 0 0 8px rgba(239, 68, 68, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 2px #EF4444, 0 0 16px rgba(239, 68, 68, 0.85);
+  }
+}
+
+.flame-border-critical {
+  animation: flame-pulse 1.4s infinite ease-in-out;
+}
+
+/* Scanline Overlay (Optional retro mode) */
+.scanlines {
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.2)
+  );
+  background-size: 100% 4px;
+}
+
+/* Evolution Glow Animation */
+@keyframes evolution-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(251, 191, 36, 0.95));
+  }
+}
+
+.evolution-aura-active {
+  animation: evolution-pulse 2s infinite ease-in-out;
+}
+

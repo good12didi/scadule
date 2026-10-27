@@ -1,0 +1,16 @@
+{
+  "name": "rpg-quest-todo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "16-Bit Retro RPG Gamified Todo & Character Evolution Web App (갓생 모험가 투두리스트)",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "rpg",
+    "todo",
+    "pixel-art",
+    "16-bit",
+    "gamification"
+  ]
+}
